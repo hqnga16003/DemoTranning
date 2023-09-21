@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1021125879081",
+    "project_id": "training-2260a",
+    "storage_bucket": "training-2260a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021125879081:android:2210ca229e776c61afc338",
+        "android_client_info": {
+          "package_name": "com.example.tranning"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDlPqSVN3dTb2DuINzGG9HMHfOom9izVs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
