@@ -18,10 +18,11 @@ import com.example.tranning.R;
 import com.example.tranning.model.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private Context mContext;
-    private ArrayList<User> mUser;
+    private List<User> mUser;
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView  name;
         public ViewHolder(@NonNull View itemView) {
@@ -31,7 +32,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
     }
 
-    public UserAdapter(Context mContext, ArrayList<User> mUser) {
+    public UserAdapter(Context mContext, List<User> mUser) {
         this.mContext = mContext;
         this.mUser = mUser;
     }

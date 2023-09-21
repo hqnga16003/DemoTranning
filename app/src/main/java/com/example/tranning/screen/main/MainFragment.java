@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,6 @@ public class MainFragment extends Fragment {
     private RecyclerView mRecyclerUser;
     private UserAdapter mUserAdapter;
     private MainViewModel mainViewModel;
-
 
     public MainFragment() {
 
@@ -77,7 +77,8 @@ public class MainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerUser = view.findViewById(R.id.recyclerViewUSer);
         mUsers = new ArrayList<>();
-        mUserAdapter = new UserAdapter(getActivity(), mUsers);
+
+        mUserAdapter = new UserAdapter(getActivity(),mUsers);
         getSuperHeroes(getActivity());
         List<User> usersLocal = mainViewModel.getAll();
         //usersLocal.forEach(it -> Log.d("XXX", it.getName()));
@@ -86,7 +87,7 @@ public class MainFragment extends Fragment {
     }
 
     private void getSuperHeroes(Context context) {
-        Call<List<User>> call = RetrofitClient.getInstance().getMyApi().getsuperHeroes();
+        Call<List<User>> call = mainViewModel.getUsers();
         call.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
@@ -94,11 +95,13 @@ public class MainFragment extends Fragment {
                 for (int i = 0; i < userList.size(); i++) {
                     User u = new User(userList.get(i).getName(), userList.get(i).getRealName(),
                             userList.get(i).getTeam(), userList.get(i).getFirstAppearance());
+
                     mainViewModel.addUser(u);
                     mUsers.add(u);
                 }
                 mRecyclerUser.setAdapter(mUserAdapter);
                 mRecyclerUser.setLayoutManager(new LinearLayoutManager(context));
+
             }
 
             @Override
