@@ -87,7 +87,7 @@ public class MainFragment extends Fragment {
     }
 
     private void getSuperHeroes(Context context) {
-        Call<List<User>> call = mainViewModel.getUsers();
+        Call<List<User>> call = mainViewModel.getCallApi();
         call.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {

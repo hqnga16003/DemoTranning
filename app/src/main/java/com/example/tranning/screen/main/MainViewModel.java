@@ -32,7 +32,7 @@ public class MainViewModel extends ViewModel {
          repository.addUser(user);
     }
 
-    public Call<List<User>> getUsers(){
+    public Call<List<User>> getCallApi(){
         return repository.getData();
     }
 }
