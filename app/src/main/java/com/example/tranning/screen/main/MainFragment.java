@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tranning.R;
-import com.example.tranning.data.RetrofitClient;
+import com.example.tranning.data.userDataSourceRemote.RetrofitClient;
 import com.example.tranning.model.User;
 
 import java.util.ArrayList;

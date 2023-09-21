@@ -1,9 +1,7 @@
 package com.example.tranning.data;
 
-import android.util.Log;
-
-import com.example.tranning.data.userDataSource.UserDao;
-import com.example.tranning.data.userDataSource.UserEntity;
+import com.example.tranning.data.userDataSourceLocal.UserDao;
+import com.example.tranning.data.userDataSourceLocal.UserEntity;
 import com.example.tranning.model.User;
 
 import java.util.ArrayList;
@@ -15,6 +13,7 @@ public class UserRepository  {
     private AppDatabase db;
     private UserDao userDao ;
 
+
     @Inject
     public UserRepository(AppDatabase db) {
         this.db = db;
@@ -25,7 +24,6 @@ public class UserRepository  {
 
         List<User> users =  new ArrayList<>();
         List<UserEntity> userEntities = userDao.getAll();
-        Log.d("XXX123", String.valueOf(userEntities.size()));
         for (UserEntity u : userEntities){
             User user = new User(u.getName(),u.getRealName(),u.getTeam(),u.getFirstAppearance());
             users.add(user);

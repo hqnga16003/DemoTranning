@@ -4,9 +4,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.tranning.data.authFirebase.AuthRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -20,47 +23,35 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 @HiltViewModel
 public class LoginViewModel extends ViewModel {
 
-    private MutableLiveData<Boolean> isLoginLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> loginResult = new MutableLiveData<>();
 
-    final FirebaseAuth firebaseAuth;
+    private AuthRepository authRepository;
 
-
-    {
-        Log.d("XXX", "LoginViewModel");
-
-    }
-
-    public MutableLiveData<Boolean> getIsLoginLiveData() {
-        return isLoginLiveData;
+    public LiveData<Boolean> getLoginResult() {
+        return loginResult;
     }
 
 
     public FirebaseUser getFirebaseUser() {
-        return firebaseAuth.getCurrentUser();
+        return authRepository.getFirebaseUser();
     }
 
     public void logout() {
-        firebaseAuth.signOut();
+        authRepository.logout();
     }
 
 
     @Inject
-    public LoginViewModel(FirebaseAuth firebaseAuth) {
-        this.firebaseAuth = firebaseAuth;
+    public LoginViewModel(AuthRepository authRepository) {
+        this.authRepository = authRepository;
     }
 
     public void login(String email, String password) {
-        firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            isLoginLiveData.setValue(true);
-                        }
-                        else
-                            isLoginLiveData.setValue(false);
-                    }
-                });
+        LiveData<Boolean> result = authRepository.login(email, password);
 
+        result.observeForever(isLoggedIn -> {
+            loginResult.postValue(isLoggedIn);
+
+        });
     }
 }

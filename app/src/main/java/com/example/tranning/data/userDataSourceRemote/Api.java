@@ -1,4 +1,4 @@
-package com.example.tranning.data;
+package com.example.tranning.data.userDataSourceRemote;
 
 import com.example.tranning.model.User;
 

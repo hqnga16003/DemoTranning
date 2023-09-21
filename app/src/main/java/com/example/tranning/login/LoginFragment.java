@@ -52,13 +52,10 @@ public class LoginFragment extends Fragment {
         }
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-        loginViewModel.logout();
-        if (loginViewModel.getFirebaseUser() != null) {
+        if (loginViewModel.getFirebaseUser()!=null){
             NavHostFragment.findNavController(getActivity().getSupportFragmentManager().
                             findFragmentById(R.id.nav_host_fragment))
                     .navigate(R.id.mainFragment);
-        } else {
-
         }
 
     }
@@ -78,28 +75,23 @@ public class LoginFragment extends Fragment {
         edPassword = view.findViewById(R.id.edPasswordLogin);
         btLogin = view.findViewById(R.id.btLoginFmLogin);
         btSignUp = view.findViewById(R.id.btSignUpFmLogin);
-
-
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!edEmail.getText().toString().isEmpty() && !edPassword.getText().toString().isEmpty()) {
                     loginViewModel.login(edEmail.getText().toString(), edPassword.getText().toString());
-
-                    loginViewModel.getIsLoginLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-                        @Override
-                        public void onChanged(Boolean aBoolean) {
-                            if (aBoolean) {
-                                Log.d("XXX","true");
-                                NavHostFragment.findNavController(getActivity().getSupportFragmentManager().
-                                                findFragmentById(R.id.nav_host_fragment))
-                                        .navigate(R.id.mainFragment);
-                            }
-                        }
-                    });
-
-
                 }
+            }
+        });
+
+        loginViewModel.getLoginResult().observe(getViewLifecycleOwner(), isLoggedIn -> {
+            if (isLoggedIn) {
+                NavHostFragment.findNavController(getActivity().getSupportFragmentManager().
+                                findFragmentById(R.id.nav_host_fragment))
+                        .navigate(R.id.mainFragment);
+
+            } else {
+                Toast.makeText(requireContext(), "Login failed. Please check your credentials.", Toast.LENGTH_SHORT).show();
             }
         });
         btSignUp.setOnClickListener(new View.OnClickListener() {

@@ -1,6 +1,8 @@
 package com.example.tranning.data.authFirebase;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,21 +21,23 @@ public class AuthRepository {
         this.firebaseAuth = firebaseAuth;
     }
 
-    public void login(String email, String password) {
+    public LiveData<Boolean> login(String email, String password) {
+        MutableLiveData<Boolean> loginResult = new MutableLiveData<>();
+
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
+                            loginResult.postValue(true);
                         }
                         else{
-
+                            loginResult.postValue(false);
                         }
 
                     }
                 });
-
+        return loginResult;
     }
 
     public void logout() {

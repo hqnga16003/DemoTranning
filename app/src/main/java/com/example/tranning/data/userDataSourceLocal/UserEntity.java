@@ -1,10 +1,8 @@
-package com.example.tranning.data.userDataSource;
+package com.example.tranning.data.userDataSourceLocal;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
-import com.google.gson.annotations.SerializedName;
 
 @Entity
 public class UserEntity {
