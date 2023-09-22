@@ -1,5 +1,6 @@
 package com.example.tranning.data;
 
+import com.example.tranning.data.userDataSourceLocal.AppDatabase;
 import com.example.tranning.data.userDataSourceLocal.UserDao;
 import com.example.tranning.data.userDataSourceLocal.UserEntity;
 import com.example.tranning.data.userDataSourceRemote.RetrofitClient;
@@ -17,7 +18,6 @@ public class UserRepository  {
     private UserDao userDao ;
     private RetrofitClient retrofitClient;
 
-    List<User> list = new ArrayList<>();
 
 
     @Inject
@@ -27,10 +27,10 @@ public class UserRepository  {
         this.retrofitClient = retrofitClient;
     }
 
-    public List<User> getAll(){
+    public List<User> getAllUserLocal(){
 
         List<User> users =  new ArrayList<>();
-        List<UserEntity> userEntities = userDao.getAll();
+        List<UserEntity> userEntities = userDao.getAllUserLocal();
         for (UserEntity u : userEntities){
             User user = new User(u.getName(),u.getRealName(),u.getTeam(),u.getFirstAppearance());
             users.add(user);
@@ -38,15 +38,15 @@ public class UserRepository  {
         return  users;
     }
 
-    public void addUser(User user){
+    public void addUserLocal(User user){
         UserEntity u = new UserEntity(user.getName(),
                 user.getRealName(),user.getTeam(),user.getFirstAppearance());
 
-        userDao.insertUser(u);
+        userDao.addUserLocal(u);
     }
 
-    public Call<List<User>> getData() {
-        Call<List<User>> call = retrofitClient.getMyApi().getsuperHeroes();
+    public Call<List<User>> getApiListUser() {
+        Call<List<User>> call = retrofitClient.getMyApi().getApiListUser();
         return call;
 
     }

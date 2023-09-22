@@ -21,21 +21,12 @@ public class SignUpViewModel extends ViewModel {
 
     final FirebaseAuth firebaseAuth;
 
-    {
-        Log.d("XXX","SignUpViewModel");
-    }
-
     @Inject
     public SignUpViewModel(FirebaseAuth firebaseAuth) {
         this.firebaseAuth = firebaseAuth;
     }
 
-    //    public MutableLiveData<String> getEmail() {
-//        if (email == null) {
-//            email = new MutableLiveData<String>();
-//        }
-//        return email;
-//    }
+
 
 
     public void signup(String email, String password) {

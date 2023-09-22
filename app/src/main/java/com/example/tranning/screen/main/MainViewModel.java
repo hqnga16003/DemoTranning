@@ -25,14 +25,14 @@ public class MainViewModel extends ViewModel {
     }
 
     public List<User> getAll() {
-        return repository.getAll();
+        return repository.getAllUserLocal();
     }
 
     public void addUser(User user){
-         repository.addUser(user);
+         repository.addUserLocal(user);
     }
 
-    public Call<List<User>> getCallApi(){
-        return repository.getData();
+    public Call<List<User>> getApiListUser(){
+        return repository.getApiListUser();
     }
 }

@@ -11,13 +11,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tranning.R;
-import com.example.tranning.data.userDataSourceRemote.RetrofitClient;
 import com.example.tranning.model.User;
 
 import java.util.ArrayList;
@@ -79,15 +77,15 @@ public class MainFragment extends Fragment {
         mUsers = new ArrayList<>();
 
         mUserAdapter = new UserAdapter(getActivity(),mUsers);
-        getSuperHeroes(getActivity());
+        getApiListUser(getActivity());
         List<User> usersLocal = mainViewModel.getAll();
         //usersLocal.forEach(it -> Log.d("XXX", it.getName()));
 
 
     }
 
-    private void getSuperHeroes(Context context) {
-        Call<List<User>> call = mainViewModel.getCallApi();
+    private void getApiListUser(Context context) {
+        Call<List<User>> call = mainViewModel.getApiListUser();
         call.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {

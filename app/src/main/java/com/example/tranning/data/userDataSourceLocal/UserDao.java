@@ -9,10 +9,10 @@ import java.util.List;
 @Dao
 public interface UserDao {
     @Query("SELECT * FROM UserEntity")
-    List<UserEntity> getAll();
+    List<UserEntity> getAllUserLocal();
 
     @Insert
-    void insertUser(UserEntity user);
+    void addUserLocal(UserEntity user);
 
 
 }

@@ -4,8 +4,7 @@ import android.app.Application;
 
 import androidx.room.Room;
 
-import com.example.tranning.data.AppDatabase;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.tranning.data.userDataSourceLocal.AppDatabase;
 
 import javax.inject.Singleton;
 

@@ -11,5 +11,5 @@ public interface Api {
 
     String BASE_URL = "https://simplifiedcoding.net/demos/";
     @GET("marvel")
-    Call<List<User>> getsuperHeroes();
+    Call<List<User>> getApiListUser();
 }

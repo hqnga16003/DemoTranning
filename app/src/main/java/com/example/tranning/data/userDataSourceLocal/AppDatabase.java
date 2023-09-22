@@ -1,4 +1,4 @@
-package com.example.tranning.data;
+package com.example.tranning.data.userDataSourceLocal;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
