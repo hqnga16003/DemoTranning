@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.tranning.data.authFirebase.AuthRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -19,25 +20,26 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 @HiltViewModel
 public class SignUpViewModel extends ViewModel {
 
-    final FirebaseAuth firebaseAuth;
+    private final MutableLiveData<Boolean> signupResult = new MutableLiveData<>();
+
+    private AuthRepository authRepository;
 
     @Inject
-    public SignUpViewModel(FirebaseAuth firebaseAuth) {
-        this.firebaseAuth = firebaseAuth;
+    public SignUpViewModel(AuthRepository authRepository) {
+        this.authRepository = authRepository;
     }
 
 
-
+    public MutableLiveData<Boolean> getSignupResult() {
+        return signupResult;
+    }
 
     public void signup(String email, String password) {
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
+        LiveData<Boolean> result = authRepository.signup(email,password);
 
-                }
+        result.observeForever(isLoggedIn -> {
+            signupResult.postValue(isLoggedIn);
 
-            }
         });
     }
 

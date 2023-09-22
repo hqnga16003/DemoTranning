@@ -40,6 +40,25 @@ public class AuthRepository {
         return loginResult;
     }
 
+    public LiveData<Boolean> signup(String email, String password) {
+        MutableLiveData<Boolean> signupResult = new MutableLiveData<>();
+
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            signupResult.postValue(true);
+                        }
+                        else{
+                            signupResult.postValue(false);
+                        }
+
+                    }
+                });
+        return signupResult;
+    }
+
     public void logout() {
         firebaseAuth.signOut();
     }

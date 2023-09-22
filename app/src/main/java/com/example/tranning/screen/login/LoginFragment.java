@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.tranning.R;
@@ -25,6 +26,7 @@ public class LoginFragment extends Fragment {
 
     private EditText edEmail, edPassword;
     private Button btLogin, btSignUp;
+    private ProgressBar progressBar;
     private LoginViewModel loginViewModel;
 
 
@@ -69,22 +71,28 @@ public class LoginFragment extends Fragment {
         edPassword = view.findViewById(R.id.edPasswordLogin);
         btLogin = view.findViewById(R.id.btLoginFmLogin);
         btSignUp = view.findViewById(R.id.btSignUpFmLogin);
+        progressBar = view.findViewById(R.id.prLoadingLogin);
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!edEmail.getText().toString().isEmpty() && !edPassword.getText().toString().isEmpty()) {
+                    progressBar.setVisibility(View.VISIBLE);
+
                     loginViewModel.login(edEmail.getText().toString(), edPassword.getText().toString());
                 }
             }
         });
 
         loginViewModel.getLoginResult().observe(getViewLifecycleOwner(), isLoggedIn -> {
+
             if (isLoggedIn) {
                 NavHostFragment.findNavController(getActivity().getSupportFragmentManager().
                                 findFragmentById(R.id.nav_host_fragment))
                         .navigate(R.id.mainFragment);
+                progressBar.setVisibility(View.GONE);
 
             } else {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(requireContext(), "Login failed. Please check your credentials.", Toast.LENGTH_SHORT).show();
             }
         });

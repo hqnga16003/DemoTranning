@@ -14,20 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.tranning.R;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SignUpFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 @AndroidEntryPoint
 public class SignUpFragment extends Fragment {
     private EditText edEmail, edPassword;
     private Button  btSignUp;
+    private ProgressBar progressBarSignup;
     private SignUpViewModel signUpViewModel;
 
     public SignUpFragment() {
@@ -78,17 +77,30 @@ public class SignUpFragment extends Fragment {
         edEmail = view.findViewById(R.id.edEmailSignup);
         edPassword = view.findViewById(R.id.edPasswordSignup);
         btSignUp = view.findViewById(R.id.btSignUpFmSignup);
-
+        progressBarSignup = view.findViewById(R.id.prLoadingSignup);
 
 
 
         btSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signUpViewModel.signup(edEmail.getText().toString(),edPassword.getText().toString());
+
+                if (!edEmail.getText().toString().isEmpty() && !edPassword.getText().toString().isEmpty()) {
+                    progressBarSignup.setVisibility(View.VISIBLE);
+                    signUpViewModel.signup(edEmail.getText().toString(), edPassword.getText().toString());
+                }
+            }
+        });
+
+        signUpViewModel.getSignupResult().observe(getViewLifecycleOwner(), isRegistered -> {
+            if (isRegistered) {
+                progressBarSignup.setVisibility(View.GONE);
                 NavHostFragment.findNavController(getActivity().getSupportFragmentManager().
                                 findFragmentById(R.id.nav_host_fragment))
-                        .navigate(R.id.action_signUpFragment_to_mainFragment);
+                        .navigate(R.id.mainFragment);
+            } else {
+                progressBarSignup.setVisibility(View.GONE);
+                Toast.makeText(requireContext(), "SignUp failed.", Toast.LENGTH_SHORT).show();
             }
         });
     }
